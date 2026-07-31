@@ -1,0 +1,15 @@
+{
+  "version": 2,
+  "dgSpecHash": "BILekS/iXmV2aF3A4nc+sHnH8xv+A3vTJ9DkshM5wtmeGa3c7fW+iFgzHdL2pHnZ8bz/+yr1dqe9Guo8/G3+jw==",
+  "success": true,
+  "projectFilePath": "/home/johann/Documentos/Aprendiendo .net/dotNET/PruebaIdeasGroup/PruebaIdeasGroup/PruebaIdeasGroup.csproj",
+  "expectedPackageFiles": [
+    "/home/johann/.nuget/packages/microsoft.extensions.apidescription.server/6.0.5/microsoft.extensions.apidescription.server.6.0.5.nupkg.sha512",
+    "/home/johann/.nuget/packages/microsoft.openapi/1.6.14/microsoft.openapi.1.6.14.nupkg.sha512",
+    "/home/johann/.nuget/packages/swashbuckle.aspnetcore/6.6.2/swashbuckle.aspnetcore.6.6.2.nupkg.sha512",
+    "/home/johann/.nuget/packages/swashbuckle.aspnetcore.swagger/6.6.2/swashbuckle.aspnetcore.swagger.6.6.2.nupkg.sha512",
+    "/home/johann/.nuget/packages/swashbuckle.aspnetcore.swaggergen/6.6.2/swashbuckle.aspnetcore.swaggergen.6.6.2.nupkg.sha512",
+    "/home/johann/.nuget/packages/swashbuckle.aspnetcore.swaggerui/6.6.2/swashbuckle.aspnetcore.swaggerui.6.6.2.nupkg.sha512"
+  ],
+  "logs": []
+}
