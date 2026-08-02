@@ -1,5 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using PruebaIdeasGroup.Infrastructure.Data;
+using PruebaIdeasGroup.Domain.Ports;
+using PruebaIdeasGroup.Infrastructure.Repository;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,6 +16,10 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddAutoMapper(typeof(Program));
+builder.Services.AddScoped<IEstadoProyectoRepository, EstadoProyectoRepository>();
+builder.Services.AddScoped<IEstadoProyectoService, PruebaIdeasGroup.Application.Services.EstadoProyectoService>();
 
 var app = builder.Build();
 
