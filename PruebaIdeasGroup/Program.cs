@@ -21,6 +21,16 @@ builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.AddScoped<IEstadoProyectoRepository, EstadoProyectoRepository>();
 builder.Services.AddScoped<IEstadoProyectoService, PruebaIdeasGroup.Application.Services.EstadoProyectoService>();
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowFrontend", policy =>
+    {
+        policy.WithOrigins("http://localhost:4200")
+              .AllowAnyMethod()
+              .AllowAnyHeader();
+    });
+});
+
 var app = builder.Build();
 
 
@@ -31,6 +41,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors("AllowFrontend");
 
 app.UseAuthorization();
 
