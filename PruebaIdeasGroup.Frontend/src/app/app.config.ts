@@ -6,6 +6,8 @@ import { ESTADO_PROYECTO_REPOSITORY } from './core/interfaces/estado-proyecto-re
 import { EstadoProyectoApiService } from './core/services/estado-proyecto-api.service';
 import { routes } from './app.routes';
 import { provideClientHydration } from '@angular/platform-browser';
+import { USUARIO_REPOSITORY } from './core/interfaces/usuario.interface';
+import { UsuarioApiService } from './core/services/usuario-api.service';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -13,6 +15,7 @@ export const appConfig: ApplicationConfig = {
     provideClientHydration(),
     provideHttpClient(withFetch()),
     provideAnimationsAsync(),
-    { provide: ESTADO_PROYECTO_REPOSITORY, useClass: EstadoProyectoApiService }
+    { provide: ESTADO_PROYECTO_REPOSITORY, useClass: EstadoProyectoApiService },
+    { provide: USUARIO_REPOSITORY, useClass: UsuarioApiService }
   ]
 };

@@ -20,6 +20,8 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.AddScoped<IEstadoProyectoRepository, EstadoProyectoRepository>();
 builder.Services.AddScoped<IEstadoProyectoService, PruebaIdeasGroup.Application.Services.EstadoProyectoService>();
+builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
+builder.Services.AddScoped<IUsuarioService, PruebaIdeasGroup.Application.Services.UsuarioService>();
 
 builder.Services.AddCors(options =>
 {
