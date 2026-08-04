@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using PruebaIdeasGroup.Application;
 using PruebaIdeasGroup.Infrastructure;
 using PruebaIdeasGroup.Infrastructure.Data;
+
 var builder = WebApplication.CreateBuilder(args);
 
 var connectionString = builder.Configuration.GetConnectionString("Default")
@@ -11,11 +12,13 @@ var connectionString = builder.Configuration.GetConnectionString("Default")
 builder.Services.AddDbContext<ApplicationDbContext>(options => 
     options.UseNpgsql(connectionString));
 
+
+builder.Services.AddApplicationServices();
+builder.Services.AddInfrastructureServices();
+
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
-builder.Services.AddAutoMapper(typeof(Program));
 
 builder.Services.AddCors(options =>
 {
@@ -35,6 +38,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseCors("AllowFrontend");
 app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();

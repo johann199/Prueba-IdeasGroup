@@ -9,8 +9,6 @@ public class EstadoProyectoProfile : Profile
     public EstadoProyectoProfile()
     {
         CreateMap<EstadoProyecto, EstadoProyectoDto>();
-        //CreateMap<CreatedEstadoProyectoDto, EstadoProyecto>();
-        //CreateMap<UpdatedEstadoProyectoDto, EstadoProyecto>();
     }
 
 }

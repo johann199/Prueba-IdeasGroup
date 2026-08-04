@@ -11,7 +11,7 @@ public static class DependencyInjection
         services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
         services.AddScoped<IUsuarioService, UsuarioService>();
         services.AddScoped<IEstadoProyectoService, EstadoProyectoService>();
-        // services.AddScoped<IProyectoService, ProyectoService>();
+        services.AddScoped<IProyectoService, ProyectoService>();
         // services.AddScoped<IColumnaService, ColumnaService>();
         // services.AddScoped<ITareaService, TareaService>();
 

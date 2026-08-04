@@ -10,7 +10,7 @@ public class Proyecto
     public int EstadoId { get; set; }
     public EstadoProyecto Estado { get; set; } = null!;
     private readonly List<ProyectoUsuario> _equipo = new();
-    private IReadOnlyCollection<ProyectoUsuario> Equipo => _equipo.AsReadOnly();
+    public IReadOnlyCollection<ProyectoUsuario> Equipo => _equipo.AsReadOnly();
     public DateTime FechaInicio { get; set; }
     public DateTime? FechaFin { get; set; }
     public DateTime Creado { get; set; }
