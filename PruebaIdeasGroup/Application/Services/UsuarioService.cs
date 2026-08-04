@@ -1,9 +1,9 @@
+namespace PruebaIdeasGroup.Application.Services;
 using AutoMapper;
+using PruebaIdeasGroup.Application.Ports.In;
+using PruebaIdeasGroup.Domain.Ports.Out;
 using PruebaIdeasGroup.Application.Dtos;
 using PruebaIdeasGroup.Domain.Entities;
-using PruebaIdeasGroup.Domain.Ports;
-
-namespace PruebaIdeasGroup.Application.Services;
 
 public class UsuarioService : IUsuarioService
 {

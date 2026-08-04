@@ -2,6 +2,7 @@ using AutoMapper;
 using PruebaIdeasGroup.Application.Dtos;
 using PruebaIdeasGroup.Domain.Entities;
 
+
 namespace PruebaIdeasGroup.Application.Mapping;
 
 public class UsuarioProfile : Profile

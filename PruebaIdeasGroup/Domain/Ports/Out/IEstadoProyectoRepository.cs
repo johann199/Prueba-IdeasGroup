@@ -1,6 +1,5 @@
+namespace PruebaIdeasGroup.Domain.Ports.Out;
 using PruebaIdeasGroup.Domain.Entities;
-namespace PruebaIdeasGroup.Domain.Ports;
-
 
 public interface IEstadoProyectoRepository
 {

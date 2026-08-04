@@ -1,9 +1,7 @@
 using Microsoft.EntityFrameworkCore;
+using PruebaIdeasGroup.Application;
+using PruebaIdeasGroup.Infrastructure;
 using PruebaIdeasGroup.Infrastructure.Data;
-using PruebaIdeasGroup.Domain.Ports;
-using PruebaIdeasGroup.Infrastructure.Repository;
-
-
 var builder = WebApplication.CreateBuilder(args);
 
 var connectionString = builder.Configuration.GetConnectionString("Default")
@@ -18,10 +16,6 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddAutoMapper(typeof(Program));
-builder.Services.AddScoped<IEstadoProyectoRepository, EstadoProyectoRepository>();
-builder.Services.AddScoped<IEstadoProyectoService, PruebaIdeasGroup.Application.Services.EstadoProyectoService>();
-builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
-builder.Services.AddScoped<IUsuarioService, PruebaIdeasGroup.Application.Services.UsuarioService>();
 
 builder.Services.AddCors(options =>
 {
@@ -35,7 +29,6 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
-
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -43,11 +36,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
-app.UseCors("AllowFrontend");
-
 app.UseAuthorization();
-
 app.MapControllers();
 
 app.Run();

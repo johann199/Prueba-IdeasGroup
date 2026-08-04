@@ -1,14 +1,14 @@
+namespace PruebaIdeasGroup.Infrastructure.Adapters.Persistence;
+
 using Microsoft.EntityFrameworkCore;
 using PruebaIdeasGroup.Domain.Entities;
-using PruebaIdeasGroup.Domain.Ports;
+using PruebaIdeasGroup.Domain.Ports.Out;
 using PruebaIdeasGroup.Infrastructure.Data;
-
-namespace PruebaIdeasGroup.Infrastructure.Repository;
-
 
 public class EstadoProyectoRepository : IEstadoProyectoRepository
 {
     private readonly ApplicationDbContext _context;
+
     public EstadoProyectoRepository(ApplicationDbContext context)
     {
         _context = context;
@@ -46,4 +46,3 @@ public class EstadoProyectoRepository : IEstadoProyectoRepository
         }
     }
 }
-

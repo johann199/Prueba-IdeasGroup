@@ -1,11 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "6VU71X2LvT+fWlmTwZT/HG1I/dhrIufka/Pqec5Ec+3kEqEW0Ex8AKXzvJiZaOtd97he23H4+nKVWUOUMWP63Q==",
+  "dgSpecHash": "r/JcuwiZ2uQZhzO2618lbk6fxldt1XPm62caxBsNi3QGDlbXamBwQdXEaFozyjKl3QT8a/PHD/2j5HZaTKuPMQ==",
   "success": true,
   "projectFilePath": "/home/johann/Documentos/Aprendiendo .net/dotNET/PruebaIdeasGroup/PruebaIdeasGroup/PruebaIdeasGroup.csproj",
   "expectedPackageFiles": [
-    "/home/johann/.nuget/packages/automapper/12.0.1/automapper.12.0.1.nupkg.sha512",
-    "/home/johann/.nuget/packages/automapper.extensions.microsoft.dependencyinjection/12.0.1/automapper.extensions.microsoft.dependencyinjection.12.0.1.nupkg.sha512",
+    "/home/johann/.nuget/packages/automapper/13.0.1/automapper.13.0.1.nupkg.sha512",
     "/home/johann/.nuget/packages/humanizer.core/2.14.1/humanizer.core.2.14.1.nupkg.sha512",
     "/home/johann/.nuget/packages/microsoft.bcl.asyncinterfaces/6.0.0/microsoft.bcl.asyncinterfaces.6.0.0.nupkg.sha512",
     "/home/johann/.nuget/packages/microsoft.codeanalysis.analyzers/3.3.3/microsoft.codeanalysis.analyzers.3.3.3.nupkg.sha512",
@@ -13,7 +12,6 @@
     "/home/johann/.nuget/packages/microsoft.codeanalysis.csharp/4.5.0/microsoft.codeanalysis.csharp.4.5.0.nupkg.sha512",
     "/home/johann/.nuget/packages/microsoft.codeanalysis.csharp.workspaces/4.5.0/microsoft.codeanalysis.csharp.workspaces.4.5.0.nupkg.sha512",
     "/home/johann/.nuget/packages/microsoft.codeanalysis.workspaces.common/4.5.0/microsoft.codeanalysis.workspaces.common.4.5.0.nupkg.sha512",
-    "/home/johann/.nuget/packages/microsoft.csharp/4.7.0/microsoft.csharp.4.7.0.nupkg.sha512",
     "/home/johann/.nuget/packages/microsoft.entityframeworkcore/8.0.10/microsoft.entityframeworkcore.8.0.10.nupkg.sha512",
     "/home/johann/.nuget/packages/microsoft.entityframeworkcore.abstractions/8.0.10/microsoft.entityframeworkcore.abstractions.8.0.10.nupkg.sha512",
     "/home/johann/.nuget/packages/microsoft.entityframeworkcore.analyzers/8.0.10/microsoft.entityframeworkcore.analyzers.8.0.10.nupkg.sha512",
@@ -57,7 +55,7 @@
       "code": "NU1903",
       "level": "Warning",
       "warningLevel": 1,
-      "message": "Package 'AutoMapper' 12.0.1 has a known high severity vulnerability, https://github.com/advisories/GHSA-rvv3-g6hj-g44x",
+      "message": "Package 'AutoMapper' 13.0.1 has a known high severity vulnerability, https://github.com/advisories/GHSA-rvv3-g6hj-g44x",
       "libraryId": "AutoMapper",
       "targetGraphs": [
         "net8.0"

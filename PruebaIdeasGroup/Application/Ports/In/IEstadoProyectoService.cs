@@ -1,5 +1,5 @@
+namespace PruebaIdeasGroup.Application.Ports.In;
 using PruebaIdeasGroup.Application.Dtos;
-namespace PruebaIdeasGroup.Domain.Ports;
 
 public interface IEstadoProyectoService
 {

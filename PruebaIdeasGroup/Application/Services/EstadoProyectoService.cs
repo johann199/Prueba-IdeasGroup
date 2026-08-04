@@ -1,11 +1,11 @@
+namespace PruebaIdeasGroup.Application.Services;
 using AutoMapper;
+using PruebaIdeasGroup.Application.Ports.In;
+using PruebaIdeasGroup.Domain.Ports.Out;
 using PruebaIdeasGroup.Application.Dtos;
 using PruebaIdeasGroup.Domain.Entities;
-using PruebaIdeasGroup.Domain.Ports;
 
-namespace PruebaIdeasGroup.Application.Services;
-
-public class EstadoProyectoService: IEstadoProyectoService
+public class EstadoProyectoService : IEstadoProyectoService
 {
     private readonly IEstadoProyectoRepository _repository;
     private readonly IMapper _mapper;
@@ -27,7 +27,6 @@ public class EstadoProyectoService: IEstadoProyectoService
     {
         var estadoProyecto = await _repository.GetByIdAsync(id);
         return estadoProyecto is null ? null : _mapper.Map<EstadoProyectoDto>(estadoProyecto);
-
     }
 
     public async Task<IEnumerable<EstadoProyectoDto>> GetAllAsync()
@@ -51,7 +50,7 @@ public class EstadoProyectoService: IEstadoProyectoService
     public async Task<bool> DeleteAsync(int id)
     {
         var estadoProyecto = await _repository.GetByIdAsync(id);
-        if (estadoProyecto is null )
+        if (estadoProyecto is null)
             return false;
         
         await _repository.DeleteAsync(id);

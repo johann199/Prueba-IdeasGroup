@@ -1,9 +1,9 @@
+namespace PruebaIdeasGroup.Infrastructure.Adapters.Persistence;
+
 using Microsoft.EntityFrameworkCore;
 using PruebaIdeasGroup.Domain.Entities;
-using PruebaIdeasGroup.Domain.Ports;
+using PruebaIdeasGroup.Domain.Ports.Out;
 using PruebaIdeasGroup.Infrastructure.Data;
-
-namespace PruebaIdeasGroup.Infrastructure.Repository;
 
 public class UsuarioRepository : IUsuarioRepository
 {
