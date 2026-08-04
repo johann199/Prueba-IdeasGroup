@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("PruebaIdeasGroup")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+96c786fbab982a9f204d054d432348f9aece776e")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e2f1f0386a95fb7f961fcf68c8288f633778c3ef")]
 [assembly: System.Reflection.AssemblyProductAttribute("PruebaIdeasGroup")]
 [assembly: System.Reflection.AssemblyTitleAttribute("PruebaIdeasGroup")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

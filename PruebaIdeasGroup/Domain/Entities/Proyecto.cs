@@ -5,10 +5,12 @@ public class Proyecto
     public int Id { get; set; }
     public string Nombre { get; set; } = string.Empty;
     public string Descripcion { get; set; } = string.Empty;
-    public int UsuarioId { get; set; }
-    public Usuario Usuario { get; set; } = null!;
+    public int CreadoPorId { get; set; }
+    public Usuario CreadoPor { get; set; } = null!;
     public int EstadoId { get; set; }
     public EstadoProyecto Estado { get; set; } = null!;
+    private readonly List<ProyectoUsuario> _equipo = new();
+    private IReadOnlyCollection<ProyectoUsuario> Equipo => _equipo.AsReadOnly();
     public DateTime FechaInicio { get; set; }
     public DateTime? FechaFin { get; set; }
     public DateTime Creado { get; set; }
@@ -16,7 +18,7 @@ public class Proyecto
 
     private Proyecto() { }
 
-    public Proyecto(string nombre, string descripcion, DateTime fechaInicio, DateTime? fechaFin, int usuarioId, int estadoId)
+    public Proyecto(string nombre, string descripcion, DateTime fechaInicio, DateTime? fechaFin, int creadoPorId, int estadoId)
     {
         if(string.IsNullOrWhiteSpace(nombre))
             throw new ArgumentException("El nombre del proyecto no puede estar vacío.", nameof(nombre));
@@ -29,10 +31,18 @@ public class Proyecto
         Descripcion = descripcion;
         FechaInicio = fechaInicio;
         FechaFin = fechaFin;
-        UsuarioId = usuarioId;
+        CreadoPorId = creadoPorId;
         EstadoId = estadoId;
         Creado = DateTime.UtcNow;
         Modificado = DateTime.UtcNow;
     }
 
+    public void AddResponsable(int usuarioId)
+    {
+        if (!_equipo.Any(u => u.UsuarioId == usuarioId))
+        {
+            _equipo.Add(new ProyectoUsuario(Id, usuarioId));
+            Modificado = DateTime.UtcNow;
+        }
+    }
 }
