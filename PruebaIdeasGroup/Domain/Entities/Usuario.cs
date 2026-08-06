@@ -24,5 +24,13 @@ public class Usuario
         Creado = DateTime.UtcNow;
         Modificado = DateTime.UtcNow;
     }
+    public void ActualizarContrasena(string nuevaContrasena)
+    {
+        if (string.IsNullOrWhiteSpace(nuevaContrasena))
+            throw new ArgumentException("La nueva contraseña no puede estar vacía.", nameof(nuevaContrasena));
+
+        Contrasena = nuevaContrasena;
+        Modificado = DateTime.UtcNow;
+    }
 
 }

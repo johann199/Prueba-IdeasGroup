@@ -23,6 +23,12 @@ public class UsuarioRepository : IUsuarioRepository
         return await _context.Usuarios.ToListAsync();
     }
 
+    public async Task<Usuario?> GetByCorreoAsync(string correo)
+    {
+        return await _context.Usuarios
+            .FirstOrDefaultAsync(u => u.Correo == correo.ToLower().Trim());
+    }
+
     public async Task AddAsync(Usuario usuario)
     {
         await _context.Usuarios.AddAsync(usuario);

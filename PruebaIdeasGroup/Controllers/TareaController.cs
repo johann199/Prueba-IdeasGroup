@@ -1,9 +1,11 @@
 namespace PruebaIdeasGroup.Controllers;
 
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 using PruebaIdeasGroup.Application.Dtos;
 using PruebaIdeasGroup.Application.Ports.In;
 
+[Authorize]
 [ApiController]
 [Route("api/[controller]")]
 public class TareaController : ControllerBase

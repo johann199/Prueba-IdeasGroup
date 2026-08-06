@@ -1,11 +1,13 @@
+namespace PruebaIdeasGroup.Controllers;
+
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 using PruebaIdeasGroup.Application.Dtos;
 using PruebaIdeasGroup.Domain.Ports.Out;
 using PruebaIdeasGroup.Application.Ports.In;
 
-namespace PruebaIdeasGroup.Controllers;
 
-
+[Authorize]
 [ApiController]
 [Route("api/[controller]")]
 public class UsuarioController : ControllerBase

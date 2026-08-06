@@ -1,4 +1,5 @@
 namespace PruebaIdeasGroup.Application.Services;
+
 using AutoMapper;
 using PruebaIdeasGroup.Application.Ports.In;
 using PruebaIdeasGroup.Domain.Ports.Out;
@@ -9,16 +10,19 @@ public class UsuarioService : IUsuarioService
 {
     private readonly IUsuarioRepository _repository;
     private readonly IMapper _mapper;
+    private readonly IPasswordService _passwordHasher;
 
-    public UsuarioService(IUsuarioRepository repository, IMapper mapper)
+    public UsuarioService(IUsuarioRepository repository, IMapper mapper, IPasswordService passwordHasher)
     {
         _repository = repository;
         _mapper = mapper;
+        _passwordHasher = passwordHasher;
     }
 
     public async Task<UsuarioDto> CreateAsync(CreateUsuarioDto dto)
     {
-        var usuario = new Usuario(dto.Nombre, dto.Correo, dto.Contrasena);
+        var contrasenaHash = _passwordHasher.Hash(dto.Contrasena);
+        var usuario = new Usuario(dto.Nombre, dto.Correo, contrasenaHash);
         await _repository.AddAsync(usuario);
         return _mapper.Map<UsuarioDto>(usuario);
     }
@@ -26,6 +30,12 @@ public class UsuarioService : IUsuarioService
     public async Task<UsuarioDto?> GetByIdAsync(int id)
     {
         var usuario = await _repository.GetByIdAsync(id);
+        return usuario is null ? null : _mapper.Map<UsuarioDto>(usuario);
+    }
+
+    public async Task<UsuarioDto?> GetByCorreoAsync(string correo)
+    {
+        var usuario = await _repository.GetByCorreoAsync(correo);
         return usuario is null ? null : _mapper.Map<UsuarioDto>(usuario);
     }
 
