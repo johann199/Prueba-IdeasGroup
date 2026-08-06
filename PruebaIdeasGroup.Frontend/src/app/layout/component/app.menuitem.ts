@@ -2,11 +2,12 @@ import { Component, computed, inject, input, signal } from '@angular/core';
 import { NavigationEnd, Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { RippleModule } from 'primeng/ripple';
-import { LayoutService } from '@/app/layout/service/layout.service';
+import { LayoutService } from '../service/layout.service';
 import { filter } from 'rxjs/operators';
 
 @Component({
     selector: '[app-menuitem]',
+    standalone: true,
     imports: [CommonModule, RouterModule, RippleModule],
     template: `
         @if (root() && isVisible()) {
@@ -47,7 +48,7 @@ import { filter } from 'rxjs/operators';
             </a>
         }
         @if (hasChildren() && isVisible() && (root() || isActive())) {
-            <ul [animate.enter]="initialized() ? 'p-submenu-enter' : null" [animate.leave]="'p-submenu-leave'" [class.layout-root-submenulist]="root()">
+            <ul *ngIf="item()?.items && item()?.visible !== false" [class.layout-submenu-expanded]="isActive()">
                 @for (child of item().items; track child?.label) {
                     <li app-menuitem [item]="child" [parentPath]="fullPath()" [root]="false" [class]="child['badgeClass']"></li>
                 }

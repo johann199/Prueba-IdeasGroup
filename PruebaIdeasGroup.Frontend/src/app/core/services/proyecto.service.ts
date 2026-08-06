@@ -19,6 +19,7 @@ export class ProyectoService {
 
     update(id: number, dto: UpdateProyecto): Observable<void> {
         if (!dto.nombre?.trim()) throw new Error('El nombre del proyecto no puede estar vacío.');
+        if (!dto.descripcion?.trim()) throw new Error('La descripción del proyecto no puede estar vacía.');
         return this.repository.update(id, dto);
     }
 

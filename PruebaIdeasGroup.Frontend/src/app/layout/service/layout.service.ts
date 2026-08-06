@@ -78,9 +78,13 @@ export class LayoutService {
     }
 
     private startViewTransition(config: LayoutConfig): void {
-        document.startViewTransition(() => {
+        if ((document as any).startViewTransition) {
+        (document as any).startViewTransition(() => {
             this.toggleDarkMode(config);
-        });
+            });
+        } else {
+            // fallback por si el navegador no soporta view transitions
+        }
     }
 
     toggleDarkMode(config?: LayoutConfig): void {
