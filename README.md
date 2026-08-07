@@ -124,8 +124,9 @@ Esta es la forma más rápida de ejecutar todo el ecosistema (PostgreSQL y Backe
 
 Clonar el repositorio:
 
-git clone <URL_DEL_REPOSITORIO>
-cd <NOMBRE_DEL_DIRECTORIO>
+git clone "https://github.com/johann199/Prueba-IdeasGroup.git"
+cd "Prueba" 
+
 Crear archivo de entorno local (Opcional):
 Puedes crear el archivo .env en la raíz basándote en la sección de configuración de variables de entorno.
 
