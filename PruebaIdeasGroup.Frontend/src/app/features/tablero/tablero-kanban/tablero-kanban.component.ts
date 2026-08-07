@@ -1,6 +1,7 @@
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, OnInit, OnDestroy, signal, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { Subscription } from 'rxjs';
 import { 
     CdkDragDrop, 
     DragDropModule, 
@@ -21,6 +22,8 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ProyectoService } from '../../../core/services/proyecto.service';
 import { ColumnaService } from '../../../core/services/columna.service';
 import { TareaService } from '../../../core/services/tarea.service';
+import { SignalRService } from '../../../core/services/signalr.service';
+import { ReporteApiService } from '../../../core/services/reporte-api.service';
 
 import { Proyecto } from '../../../core/models/proyecto.model';
 import { Columna } from '../../../core/models/columna.model';
@@ -68,8 +71,33 @@ interface ColumnaConTareas extends Columna {
                     ></p-dropdown>
                 </div>
 
-                <div class="flex gap-2" *ngIf="proyectoSeleccionado">
-                    <p-button label="Nueva Columna" icon="pi pi-plus" severity="secondary" size="small" (onClick)="openNuevaColumna()"></p-button>
+                <!-- Botones de Acción (Exportación y Estructura) -->
+                <div class="flex flex-wrap gap-2" *ngIf="proyectoSeleccionado">
+                    <p-button 
+                        label="PDF" 
+                        icon="pi pi-file-pdf" 
+                        severity="danger" 
+                        size="small" 
+                        [loading]="cargandoPdf()" 
+                        (onClick)="descargarPdf()"
+                    ></p-button>
+
+                    <p-button 
+                        label="Excel" 
+                        icon="pi pi-file-excel" 
+                        severity="success" 
+                        size="small" 
+                        [loading]="cargandoExcel()" 
+                        (onClick)="descargarExcel()"
+                    ></p-button>
+
+                    <p-button 
+                        label="Nueva Columna" 
+                        icon="pi pi-plus" 
+                        severity="secondary" 
+                        size="small" 
+                        (onClick)="openNuevaColumna()"
+                    ></p-button>
                 </div>
             </div>
 
@@ -138,13 +166,9 @@ interface ColumnaConTareas extends Columna {
                 </div>
             </div>
         </div>
-
-        <!-- Diálogos (Columna y Tarea) se mantienen exactamente igual -->
     `
-    
-    
 })
-export class TableroKanbanComponent implements OnInit {
+export class TableroKanbanComponent implements OnInit, OnDestroy {
     proyectos = signal<Proyecto[]>([]);
     proyectoSeleccionado: Proyecto | null = null;
 
@@ -158,6 +182,14 @@ export class TableroKanbanComponent implements OnInit {
     nuevaTarea: Partial<CreateTarea> = { prioridad: 1 };
     columnaTargetId: number | null = null;
 
+    // Signals para estado de carga de exportaciones
+    cargandoPdf = signal<boolean>(false);
+    cargandoExcel = signal<boolean>(false);
+
+    private signalRService = inject(SignalRService);
+    private reporteApiService = inject(ReporteApiService);
+    private subscriptions = new Subscription();
+
     constructor(
         private proyectoService: ProyectoService,
         private columnaService: ColumnaService,
@@ -168,6 +200,21 @@ export class TableroKanbanComponent implements OnInit {
 
     ngOnInit() {
         this.cargarProyectos();
+        this.escucharNotificacionesEnTiempoReal();
+    }
+
+    escucharNotificacionesEnTiempoReal() {
+        this.subscriptions.add(
+            this.signalRService.taskMoved$.subscribe(() => {
+                this.cargarTableroSinReconectarSignalR();
+            })
+        );
+
+        this.subscriptions.add(
+            this.signalRService.boardUpdated$.subscribe(() => {
+                this.cargarTableroSinReconectarSignalR();
+            })
+        );
     }
 
     cargarProyectos() {
@@ -183,10 +230,20 @@ export class TableroKanbanComponent implements OnInit {
     }
 
     onProyectoChange() {
-        this.cargarTablero();
+        if (this.proyectoSeleccionado) {
+            this.signalRService.startConnection(this.proyectoSeleccionado.id);
+        }
+        this.cargarTableroSinReconectarSignalR();
     }
 
     cargarTablero() {
+        if (!this.proyectoSeleccionado) return;
+
+        this.signalRService.startConnection(this.proyectoSeleccionado.id);
+        this.cargarTableroSinReconectarSignalR();
+    }
+
+    cargarTableroSinReconectarSignalR() {
         if (!this.proyectoSeleccionado) return;
 
         this.columnaService.getByProyectoId(this.proyectoSeleccionado.id).subscribe({
@@ -206,6 +263,61 @@ export class TableroKanbanComponent implements OnInit {
                 });
             }
         });
+    }
+
+    ngOnDestroy() {
+        this.subscriptions.unsubscribe();
+        if (this.proyectoSeleccionado) {
+            this.signalRService.stopConnection(this.proyectoSeleccionado.id);
+        }
+    }
+
+    // EXPORTACIÓN DE REPORTES
+    descargarPdf() {
+        if (!this.proyectoSeleccionado) return;
+
+        this.cargandoPdf.set(true);
+        this.reporteApiService.descargarPdfProyecto(this.proyectoSeleccionado.id).subscribe({
+            next: (blob) => {
+                this.descargarArchivo(blob, `Reporte_Proyecto_${this.proyectoSeleccionado?.nombre}.pdf`);
+                this.cargandoPdf.set(false);
+                this.messageService.add({ severity: 'success', summary: 'Éxito', detail: 'PDF descargado correctamente' });
+            },
+            error: (err) => {
+                console.error('Error al descargar PDF:', err);
+                this.cargandoPdf.set(false);
+                this.messageService.add({ severity: 'error', summary: 'Error', detail: 'No se pudo generar el reporte en PDF' });
+            }
+        });
+    }
+
+    descargarExcel() {
+        if (!this.proyectoSeleccionado) return;
+
+        this.cargandoExcel.set(true);
+        this.reporteApiService.descargarExcelProyecto(this.proyectoSeleccionado.id).subscribe({
+            next: (blob) => {
+                this.descargarArchivo(blob, `Reporte_Proyecto_${this.proyectoSeleccionado?.nombre}.xlsx`);
+                this.cargandoExcel.set(false);
+                this.messageService.add({ severity: 'success', summary: 'Éxito', detail: 'Excel descargado correctamente' });
+            },
+            error: (err) => {
+                console.error('Error al descargar Excel:', err);
+                this.cargandoExcel.set(false);
+                this.messageService.add({ severity: 'error', summary: 'Error', detail: 'No se pudo generar el reporte en Excel' });
+            }
+        });
+    }
+
+    private descargarArchivo(blob: Blob, nombreArchivo: string) {
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = nombreArchivo;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        window.URL.revokeObjectURL(url);
     }
 
     // DROP TAREAS
@@ -251,20 +363,19 @@ export class TableroKanbanComponent implements OnInit {
         });
     }
 
-    // Drop de columnas
+    // DROP COLUMNAS
     dropColumna(event: CdkDragDrop<ColumnaConTareas[]>) {
         const cols = [...this.columnasConTareas()];
         moveItemInArray(cols, event.previousIndex, event.currentIndex);
         this.columnasConTareas.set(cols);
 
-        // Actualizar el orden en la base de datos
         cols.forEach((col, index) => {
             col.ordenDentroProyecto = index + 1;
             this.columnaService.update(col.id, col.nombre, col.ordenDentroProyecto).subscribe();
         });
     }
 
-    //COLUMNAS
+    // COLUMNAS
     openNuevaColumna() {
         this.nuevaColumnaNombre = '';
         this.columnaDialog = true;
@@ -278,7 +389,7 @@ export class TableroKanbanComponent implements OnInit {
             next: () => {
                 this.messageService.add({ severity: 'success', summary: 'Éxito', detail: 'Columna creada' });
                 this.columnaDialog = false;
-                this.cargarTablero();
+                this.cargarTableroSinReconectarSignalR();
             }
         });
     }
@@ -290,14 +401,14 @@ export class TableroKanbanComponent implements OnInit {
                 this.columnaService.delete(col.id).subscribe({
                     next: () => {
                         this.messageService.add({ severity: 'success', summary: 'Éxito', detail: 'Columna eliminada' });
-                        this.cargarTablero();
+                        this.cargarTableroSinReconectarSignalR();
                     }
                 });
             }
         });
     }
 
-    //TAREAS
+    // TAREAS
     openNuevaTarea(columnaId: number) {
         this.columnaTargetId = columnaId;
         const col = this.columnasConTareas().find(c => c.id === columnaId);
@@ -319,7 +430,7 @@ export class TableroKanbanComponent implements OnInit {
             next: () => {
                 this.messageService.add({ severity: 'success', summary: 'Éxito', detail: 'Tarea creada' });
                 this.tareaDialog = false;
-                this.cargarTablero();
+                this.cargarTableroSinReconectarSignalR();
             }
         });
     }
@@ -331,7 +442,7 @@ export class TableroKanbanComponent implements OnInit {
                 this.tareaService.delete(tarea.id).subscribe({
                     next: () => {
                         this.messageService.add({ severity: 'success', summary: 'Éxito', detail: 'Tarea eliminada' });
-                        this.cargarTablero();
+                        this.cargarTableroSinReconectarSignalR();
                     }
                 });
             }
