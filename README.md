@@ -43,7 +43,7 @@ Sistema de Gestión de Proyectos tipo Kanban con tablero interactivo en tiempo r
 ## 3. Solución, Diseño y Funcionalidades
 
 ### 3.1 Modelo Entidad Relación. 
-![Modelo Entidad Relación](PruebaIdeasGroup.Frontend/src/assets/diagrama ER/Diagram ER Prueba IdeasGroup.png)
+![Modelo Entidad Relación](PruebaIdeasGroup.Frontend/src/assets/diagrama_ER/Diagram_ER_Prueba_IdeasGroup.png)
 
 
 ### 3.1.2 Estructura de la Solución
